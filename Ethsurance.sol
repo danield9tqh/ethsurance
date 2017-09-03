@@ -117,16 +117,16 @@ contract Ethsurance {
       uint policyBalance = policies[policyHolder]._balance;
       if (amount <= policyBalance) {
         policies[policyHolder]._balance -= amount;
-        policyHolder.transfer(amount);
         policies[policyHolder]._payments.push(int(amount) * int(-1));
         policies[policyHolder]._balancePayments.push(int(amount) * int(-1));
+        policyHolder.transfer(amount);
       } else if (amount <= (policyBalance + availiableBalance)) {
         uint remainingAmount = amount - policyBalance;
         policies[policyHolder]._balance = 0;
         availiableBalance -= remainingAmount;
-        policyHolder.transfer(amount);
         policies[policyHolder]._payments.push(int(amount) * int(-1));
         policies[policyHolder]._balancePayments.push(int(policyBalance) * int(-1));
+        policyHolder.transfer(amount);
       } else {
         return false;
       }
