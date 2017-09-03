@@ -1,0 +1,27 @@
+@import "src/style/main.scss";
+
+.login-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  .login-card {
+    .card:hover {
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+    .login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .address-input {
+        padding: 10px;
+      }
+      .login-button {
+        padding: 10px;
+      }
+    }
+    .error {
+      color: $locked-red;
+      padding: 5px;
+    }
+  }
+}

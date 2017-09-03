@@ -1,0 +1,11 @@
+@import "src/style/main.scss";
+
+.main {
+  background: $background-blue;
+  min-width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  .view {
+   padding: 20px;
+  }
+}

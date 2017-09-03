@@ -1,0 +1,16 @@
+@import "src/style/main.scss";
+
+.policy-address {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 150px;
+}
+
+.pay-account {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  .react-input {
+    margin-bottom: 5px;
+  }
+}

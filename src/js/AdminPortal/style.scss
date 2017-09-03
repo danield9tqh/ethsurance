@@ -1,0 +1,10 @@
+@import "src/style/main.scss";
+
+.admin-portal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  >div {
+    margin-bottom: 15px;
+  }
+}
