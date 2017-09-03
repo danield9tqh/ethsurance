@@ -54,7 +54,7 @@ class CustomerPortal extends React.Component {
   }
 
   formatPayments(payments) {
-    return payments.map({payment, balancePayment} => {
+    return payments.map(({payment, balancePayment}) => {
       const payer = (payment >= 0)
         ? "Myself"
         : "Insurance Co";
