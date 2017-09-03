@@ -14,7 +14,7 @@ class PaymentRow extends React.Component {
       <tr className={colorClass} >
         <td><div className="payer">{ payer }</div></td>
         <td><div className="total">{ this.props.total }</div></td>
-        <td><div className="total">{ this.props.affectToBalance }</div></td>
+        <td><div className="affect-to-balance">{ this.props.affectToBalance }</div></td>
       </tr>
     );
   }
