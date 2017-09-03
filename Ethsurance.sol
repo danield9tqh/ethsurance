@@ -16,6 +16,7 @@ contract Ethsurance {
     uint _balance;
     bool _exists;
     int[] _payments;
+    int[] _balancePayments;
   }
 
   mapping (address => Policy) public policies;
@@ -39,8 +40,16 @@ contract Ethsurance {
     return policies[policyHolder]._payments.length;
   }
 
+  function getNumberOfBalancePayments(address policyHolder) constant returns (uint){
+    return policies[policyHolder]._balancePayments.length;
+  }
+
   function getPayment(address policyHolder, uint index) constant returns (int){
     return policies[policyHolder]._payments[index];
+  }
+
+  function getBalancePayment(address policyHolder, uint index) constant returns (int){
+    return policies[policyHolder]._balancePayments[index];
   }
 
   function createPolicy(uint guaranteedPercentage) payable returns (bool) {
@@ -52,9 +61,11 @@ contract Ethsurance {
         _guaranteedPercentage: guaranteedPercentage,
         _balance: reservedAmount,
         _exists: true,
-        _payments: new int[](0)
+        _payments: new int[](0),
+        _balancePayments: new int[](0)
       });
       policies[msg.sender]._payments.push(int(msg.value));
+      policies[msg.sender]._balancePayments.push(int(reservedAmount));
       policyHolders.push(msg.sender);
       availiableBalance += availiableAmount;
       return true;
@@ -77,6 +88,7 @@ contract Ethsurance {
       policies[msg.sender]._balance += reservedAmount;
       availiableBalance += availiableAmount;
       policies[msg.sender]._payments.push(int(msg.value));
+      policies[msg.sender]._balancePayments.push(int(reservedAmount));
       return true;
     }
     return false;
@@ -107,12 +119,14 @@ contract Ethsurance {
         policies[policyHolder]._balance -= amount;
         policyHolder.transfer(amount);
         policies[policyHolder]._payments.push(int(amount) * int(-1));
+        policies[policyHolder]._balancePayments.push(int(amount) * int(-1));
       } else if (amount <= (policyBalance + availiableBalance)) {
         uint remainingAmount = amount - policyBalance;
         policies[policyHolder]._balance = 0;
         availiableBalance -= remainingAmount;
         policyHolder.transfer(amount);
         policies[policyHolder]._payments.push(int(amount) * int(-1));
+        policies[policyHolder]._balancePayments.push(int(policyBalance) * int(-1));
       } else {
         return false;
       }

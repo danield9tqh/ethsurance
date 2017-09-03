@@ -45,10 +45,41 @@ class EthsuranceContract {
           const numericPayments = payments.map(payment => {
             return parseInt(payment);
           });
-          const paymentsWithoutZero = numericPayments.filter(payment => {
-            return payment !== 0;
+          resolve(numericPayments);
+        });
+      });
+    });
+  }
+
+  getBalancePayments(policyHolder) {
+    return new Promise((resolve, reject) => {
+      this.contract.methods.getNumberOfBalancePayments(policyHolder).call().then((number) => {
+        const numberInt = parseInt(number);
+        let promises = new Array();
+        for (var i = 0; i< numberInt; i++) {
+          promises[i] = this.contract.methods.getBalancePayment(policyHolder, i).call();
+        }
+        Promise.all(promises).then((payments) => {
+          const numericPayments = payments.map(payment => {
+            return parseInt(payment);
           });
-          resolve(paymentsWithoutZero);
+          resolve(numericPayments);
+        });
+      });
+    });
+  }
+
+  getAllPayments(policyHolder) {
+    return new Promise(resolve => {
+      this.getPayments(policyHolder).then(payments => {
+        this.getBalancePayments(policyHolder).then(balancePayments => {
+          const zippedPayments = payments.map((payment, i) => {
+              return {
+                payment: payment,
+                balancePayment: balancePayments[i]
+              };
+          });
+          resolve(zippedPayments);
         });
       });
     });
