@@ -33,7 +33,7 @@ class EthsuranceContract {
     });
   }
 
-  getPayments(policyHolder) {
+  getTotalPayments(policyHolder) {
     return new Promise((resolve, reject) => {
       this.contract.methods.getNumberOfPayments(policyHolder).call().then((number) => {
         const numberInt = parseInt(number);
@@ -69,13 +69,13 @@ class EthsuranceContract {
     });
   }
 
-  getAllPayments(policyHolder) {
+  getPayments(policyHolder) {
     return new Promise(resolve => {
-      this.getPayments(policyHolder).then(payments => {
+      this.getTotalPayments(policyHolder).then(totalPayments => {
         this.getBalancePayments(policyHolder).then(balancePayments => {
-          const zippedPayments = payments.map((payment, i) => {
+          const zippedPayments = totalPayments.map((totalPayment, i) => {
               return {
-                payment: payment,
+                payment: totalPayment,
                 balancePayment: balancePayments[i]
               };
           });

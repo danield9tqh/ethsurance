@@ -18,7 +18,7 @@ class CustomerPortal extends React.Component {
   componentWillMount() {
     const contract = this.props.contract;
     contract.getPolicy(this.props.address).then(policy => {
-      contract.getAllPayments(this.props.address).then(payments => {
+      contract.getPayments(this.props.address).then(payments => {
         this.setState({
           policy: policy,
           payments: payments
@@ -30,7 +30,7 @@ class CustomerPortal extends React.Component {
   componentWillReceiveProps(nextProps) {
     const contract = nextProps.contract;
     contract.getPolicy(nextProps.address).then(policy => {
-      contract.getAllPayments(nextProps.address).then(payments => {
+      contract.getPayments(nextProps.address).then(payments => {
         this.setState({
           policy: policy,
           payments: payments
@@ -43,7 +43,7 @@ class CustomerPortal extends React.Component {
     const contract = this.props.contract;
     contract.makePayment(amount, this.props.address).then(() => {
       contract.getPolicy(this.props.address).then(policy => {
-        contract.getAllPayments(this.props.address).then(payments => {
+        contract.getPayments(this.props.address).then(payments => {
           this.setState({
             policy: policy,
             payments: payments
