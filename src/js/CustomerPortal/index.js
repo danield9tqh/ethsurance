@@ -21,7 +21,7 @@ class CustomerPortal extends React.Component {
       contract.getPayments(this.props.address).then(payments => {
         this.setState({
           policy: policy,
-          payments: payments
+          payments: formatPayments(payments)
         });
       });
     });
@@ -33,7 +33,7 @@ class CustomerPortal extends React.Component {
       contract.getPayments(nextProps.address).then(payments => {
         this.setState({
           policy: policy,
-          payments: payments
+          payments: formatPayments(payments)
         });
       });
     });
@@ -46,10 +46,23 @@ class CustomerPortal extends React.Component {
         contract.getPayments(this.props.address).then(payments => {
           this.setState({
             policy: policy,
-            payments: payments
+            payments: formatPayments(payments)
           });
         });
       });
+    })
+  }
+
+  formatPayments(payments) {
+    return payments.map({payment, balancePayment} => {
+      const payer = (payment >= 0)
+        ? "Myself"
+        : "Insurance Co";
+      return {
+        payer: payer,
+        total: payment,
+        affectToBalance: balancePayment
+      };
     })
   }
 
