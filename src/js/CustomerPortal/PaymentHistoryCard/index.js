@@ -19,7 +19,10 @@ class PaymentHistoryCard extends React.Component {
 }
 
 PaymentHistoryCard.propTypes = {
-  payments: React.PropTypes.array.isRequired
+  payments:  React.PropTypes.arrayOf(React.PropTypes.shape({
+     payment: React.PropTypes.number.isRequired,
+     balancePayment: React.PropTypes.number.isRequired
+   })).isRequired
 }
 
 export default PaymentHistoryCard;
