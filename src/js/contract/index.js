@@ -85,6 +85,28 @@ class EthsuranceContract {
     });
   }
 
+  getAllPayments() {
+    return new Promise((resolve, reject) => {
+      this.contract.methods.getTotalNumberOfPayments().call().then((number) => {
+        const numberInt = parseInt(number);
+        let promises = new Array();
+        for (var i = 0; i< numberInt; i++) {
+          promises[i] = this.contract.methods.payments(i).call();
+        }
+        Promise.all(promises).then((results) => {
+          const parsedResults = results.map(result => {
+            return {
+              affectToPolicyBalance: result._affectToPolicyBalance,
+              policy: result._policy,
+              totalAmount: result._totalAmount
+            };
+          });
+          resolve(parsedResults);
+        });
+      });
+    });
+  }
+
   payClaim(holder, weiAmount) {
     return new Promise((resolve, reject) => {
       if (weiAmount > 0) {

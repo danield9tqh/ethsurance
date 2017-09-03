@@ -19,9 +19,17 @@ contract Ethsurance {
     int[] _balancePayments;
   }
 
+  struct Payment {
+    address _policy;
+    int _totalAmount;
+    int _affectToPolicyBalance;
+  }
+
   mapping (address => Policy) public policies;
 
   address[] public policyHolders;
+
+  Payment[] public payments;
 
   address public owner;
 
@@ -34,6 +42,10 @@ contract Ethsurance {
 
   function getNumberOfHolders() constant returns (uint){
     return policyHolders.length;
+  }
+
+  function getTotalNumberOfPayments() constant returns (uint){
+    return payments.length;
   }
 
   function getNumberOfPayments(address policyHolder) constant returns (uint){
@@ -66,6 +78,11 @@ contract Ethsurance {
       });
       policies[msg.sender]._payments.push(int(msg.value));
       policies[msg.sender]._balancePayments.push(int(reservedAmount));
+      payments.push(Payment({
+        _policy: msg.sender,
+        _totalAmount: int(msg.value),
+        _affectToPolicyBalance: int(reservedAmount)
+      }));
       policyHolders.push(msg.sender);
       availiableBalance += availiableAmount;
       return true;
@@ -89,6 +106,11 @@ contract Ethsurance {
       availiableBalance += availiableAmount;
       policies[msg.sender]._payments.push(int(msg.value));
       policies[msg.sender]._balancePayments.push(int(reservedAmount));
+      payments.push(Payment({
+        _policy: msg.sender,
+        _totalAmount: int(msg.value),
+        _affectToPolicyBalance: int(reservedAmount)
+      }));
       return true;
     }
     return false;
@@ -119,6 +141,11 @@ contract Ethsurance {
         policies[policyHolder]._balance -= amount;
         policies[policyHolder]._payments.push(int(amount) * int(-1));
         policies[policyHolder]._balancePayments.push(int(amount) * int(-1));
+        payments.push(Payment({
+          _policy: policyHolder,
+          _totalAmount: int(amount) * int(-1),
+          _affectToPolicyBalance: int(amount) * int(-1)
+        }));
         policyHolder.transfer(amount);
       } else if (amount <= (policyBalance + availiableBalance)) {
         uint remainingAmount = amount - policyBalance;
@@ -126,6 +153,11 @@ contract Ethsurance {
         availiableBalance -= remainingAmount;
         policies[policyHolder]._payments.push(int(amount) * int(-1));
         policies[policyHolder]._balancePayments.push(int(policyBalance) * int(-1));
+        payments.push(Payment({
+          _policy: policyHolder,
+          _totalAmount: int(amount) * int(-1),
+          _affectToPolicyBalance: int(policyBalance) * int(-1)
+        }));
         policyHolder.transfer(amount);
       } else {
         return false;
