@@ -9,7 +9,7 @@ class MakePaymentCard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {amount: 0};
+    this.state = {amount: '0'};
 
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleMakePayment = this.handleMakePayment.bind(this);
@@ -20,7 +20,8 @@ class MakePaymentCard extends React.Component {
   }
 
   handleMakePayment() {
-    this.props.makePayment(this.state.amount);
+    const paymentAmount = parseInt(this.state.amount);
+    this.props.makePayment(paymentAmount);
   }
 
   render() {
