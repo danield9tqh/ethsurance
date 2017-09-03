@@ -9,7 +9,7 @@
     "starteth": "./node_modules/.bin/testrpc",
     "deploy": "node deploy.js"
   },
-  "author": "",
+  "author": "Daniel Cogan",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.25.0",
