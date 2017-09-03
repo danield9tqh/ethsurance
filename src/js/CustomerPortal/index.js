@@ -2,6 +2,7 @@ import React from "react";
 
 import BalanceCard from "./BalanceCard";
 import MakePayment from "./MakePayment";
+import PaymentHistoryCard from "./PaymentHistoryCard";
 
 import "./style.scss";
 
@@ -9,7 +10,7 @@ class CustomerPortal extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {policy: null};
+    this.state = {policy: null, payments: []};
 
     this.handleMakePayment = this.handleMakePayment.bind(this);
   }
@@ -17,17 +18,24 @@ class CustomerPortal extends React.Component {
   componentWillMount() {
     const contract = this.props.contract;
     contract.getPolicy(this.props.address).then(policy => {
-      this.setState({policy: policy});
-    });
-    contract.getPayments(this.props.address).then(payments => {
-      console.log(payments);
+      contract.getAllPayments(this.props.address).then(payments => {
+        this.setState({
+          policy: policy,
+          payments: payments
+        });
+      });
     });
   }
 
   componentWillReceiveProps(nextProps) {
     const contract = nextProps.contract;
     contract.getPolicy(nextProps.address).then(policy => {
-      this.setState({policy: policy});
+      contract.getAllPayments(nextProps.address).then(payments => {
+        this.setState({
+          policy: policy,
+          payments: payments
+        });
+      });
     });
   }
 
@@ -35,7 +43,12 @@ class CustomerPortal extends React.Component {
     const contract = this.props.contract;
     contract.makePayment(amount, this.props.address).then(() => {
       contract.getPolicy(this.props.address).then(policy => {
-        this.setState({policy: policy});
+        contract.getAllPayments(this.props.address).then(payments => {
+          this.setState({
+            policy: policy,
+            payments: payments
+          });
+        });
       });
     })
   }
@@ -47,6 +60,7 @@ class CustomerPortal extends React.Component {
       <div className="customer-portal">
         <BalanceCard balance={balance} />
         <MakePayment makePayment={this.handleMakePayment} />
+        <PaymentHistoryCard payments={this.state.payments} />
       </div>
 
     );
