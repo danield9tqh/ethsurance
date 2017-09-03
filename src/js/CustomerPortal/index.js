@@ -2,7 +2,7 @@ import React from "react";
 
 import BalanceCard from "./BalanceCard";
 import MakePayment from "./MakePayment";
-import PaymentHistoryCard from "./PaymentHistoryCard";
+import PaymentHistoryCard from "../PaymentHistoryCard";
 
 import "./style.scss";
 
