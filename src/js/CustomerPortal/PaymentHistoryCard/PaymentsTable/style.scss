@@ -1,0 +1,17 @@
+@import "src/style/main.scss";
+
+.payments-table {
+  width: 100%;
+  .payer {
+    text-align: left;
+  }
+  .total {
+    text-align: right;
+  }
+  .negative {
+    color: $locked-red;
+  }
+  .positive {
+    color: $availiable-green;
+  }
+}

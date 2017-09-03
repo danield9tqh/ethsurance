@@ -3,4 +3,16 @@
 .customer-portal {
   display: flex;
   justify-content: space-around;
+  .payment-history-card {
+    flex-grow: 2;
+  }
+  .balance-card {
+    flex-grow: 1;
+  }
+  .make-payment-card {
+    flex-grow: 1;
+  }
+  .card:not(:last-child) {
+    margin-right: 15px;
+  }
 }
