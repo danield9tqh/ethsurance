@@ -17,7 +17,6 @@ class AdminPortal extends React.Component {
 
   componentWillMount() {
     this.fetchContractData().then(data => {
-      console.log(data.payments);
       this.setState({availiableBalance: data.availiableBalance, policies: data.policies, payments: data.payments});
     });
   }
