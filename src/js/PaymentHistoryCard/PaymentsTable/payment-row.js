@@ -11,7 +11,7 @@ class PaymentRow extends React.Component {
       <tr className={colorClass} >
         <td><div className="payer">{ this.props.payer }</div></td>
         <td><div className="total">{ this.props.total }</div></td>
-        <td><div className="affect-to-balance">{ this.props.affectToBalance }</div></td>
+        <td><div className="effect-to-balance">{ this.props.effectToBalance }</div></td>
       </tr>
     );
   }
@@ -20,7 +20,7 @@ class PaymentRow extends React.Component {
 PaymentRow.propTypes = {
   payer: React.PropTypes.string.isRequired,
   total: React.PropTypes.number.isRequired,
-  affectToBalance: React.PropTypes.number.isRequired
+  effectToBalance: React.PropTypes.number.isRequired
 };
 
 export default PaymentRow;

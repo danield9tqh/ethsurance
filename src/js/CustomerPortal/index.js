@@ -61,7 +61,7 @@ class CustomerPortal extends React.Component {
       return {
         payer: payer,
         total: payment,
-        affectToBalance: balancePayment
+        effectToBalance: balancePayment
       };
     })
   }

@@ -97,8 +97,8 @@ class EthsuranceContract {
           const parsedResults = results.map(result => {
             return {
               policy: result._policy,
-              affectToPolicyBalance: parseInt(result._affectToPolicyBalance),
-              affectToCompanyBalance: parseInt(result._affectToCompanyBalance),
+              effectToPolicyBalance: parseInt(result._effectToPolicyBalance),
+              effectToCompanyBalance: parseInt(result._effectToCompanyBalance),
               totalAmount: parseInt(result._totalAmount)
             };
           });

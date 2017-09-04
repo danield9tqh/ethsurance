@@ -6,13 +6,13 @@ import "./style.scss";
 
 class PaymentsTable extends React.Component {
   render() {
-    const paymentRows = this.props.payments.map(({ payer, total, affectToBalance }, index) => {
+    const paymentRows = this.props.payments.map(({ payer, total, effectToBalance }, index) => {
       return (
         <PaymentRow
           key={`${index}`}
           payer={payer}
           total={total}
-          affectToBalance={affectToBalance}
+          effectToBalance={effectToBalance}
         />);
     });
     const labels = (
@@ -20,7 +20,7 @@ class PaymentsTable extends React.Component {
         <tr>
           <th><div className="payer">{"Payer"}</div></th>
           <th><div className="total">{"Total"}</div></th>
-          <th><div className="affect-to-balance">{"Affect To Balance"}</div></th>
+          <th><div className="effect-to-balance">{"Effect To Balance"}</div></th>
         </tr>
       </thead>
     );
@@ -39,7 +39,7 @@ PaymentsTable.propTypes = {
   payments:  React.PropTypes.arrayOf(React.PropTypes.shape({
     payer: React.PropTypes.string.isRequired,
     total: React.PropTypes.number.isRequired,
-    affectToBalance: React.PropTypes.number.isRequired
+    effectToBalance: React.PropTypes.number.isRequired
   })).isRequired
 };
 
