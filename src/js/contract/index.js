@@ -98,6 +98,7 @@ class EthsuranceContract {
             return {
               policy: result._policy,
               affectToPolicyBalance: parseInt(result._affectToPolicyBalance),
+              affectToCompanyBalance: parseInt(result._affectToCompanyBalance),
               totalAmount: parseInt(result._totalAmount)
             };
           });
