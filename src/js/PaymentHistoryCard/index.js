@@ -22,7 +22,7 @@ PaymentHistoryCard.propTypes = {
   payments:  React.PropTypes.arrayOf(React.PropTypes.shape({
     payer: React.PropTypes.string.isRequired,
     total: React.PropTypes.number.isRequired,
-    affectToBalance: React.PropTypes.number.isRequired
+    effectToBalance: React.PropTypes.number.isRequired
   })).isRequired
 }
 

@@ -22,8 +22,8 @@ contract Ethsurance {
   struct Payment {
     address _policy;
     int _totalAmount;
-    int _affectToPolicyBalance;
-    int _affectToCompanyBalance;
+    int _effectToPolicyBalance;
+    int _effectToCompanyBalance;
   }
 
   mapping (address => Policy) public policies;
@@ -82,8 +82,8 @@ contract Ethsurance {
       payments.push(Payment({
         _policy: msg.sender,
         _totalAmount: int(msg.value),
-        _affectToPolicyBalance: int(reservedAmount),
-        _affectToCompanyBalance: int(availiableAmount)
+        _effectToPolicyBalance: int(reservedAmount),
+        _effectToCompanyBalance: int(availiableAmount)
       }));
       policyHolders.push(msg.sender);
       availiableBalance += availiableAmount;
@@ -111,8 +111,8 @@ contract Ethsurance {
       payments.push(Payment({
         _policy: msg.sender,
         _totalAmount: int(msg.value),
-        _affectToPolicyBalance: int(reservedAmount),
-        _affectToCompanyBalance: int(availiableAmount)
+        _effectToPolicyBalance: int(reservedAmount),
+        _effectToCompanyBalance: int(availiableAmount)
       }));
       return true;
     }
@@ -147,8 +147,8 @@ contract Ethsurance {
         payments.push(Payment({
           _policy: policyHolder,
           _totalAmount: int(amount) * int(-1),
-          _affectToPolicyBalance: int(amount) * int(-1),
-          _affectToCompanyBalance: int(0)
+          _effectToPolicyBalance: int(amount) * int(-1),
+          _effectToCompanyBalance: int(0)
         }));
         policyHolder.transfer(amount);
       } else if (amount <= (policyBalance + availiableBalance)) {
@@ -160,8 +160,8 @@ contract Ethsurance {
         payments.push(Payment({
           _policy: policyHolder,
           _totalAmount: int(amount) * int(-1),
-          _affectToPolicyBalance: int(policyBalance) * int(-1),
-          _affectToCompanyBalance: int(remainingAmount)
+          _effectToPolicyBalance: int(policyBalance) * int(-1),
+          _effectToCompanyBalance: int(remainingAmount)
         }));
         policyHolder.transfer(amount);
       } else {
