@@ -21,7 +21,7 @@ class CustomerPortal extends React.Component {
       contract.getPayments(this.props.address).then(payments => {
         this.setState({
           policy: policy,
-          payments: formatPayments(payments)
+          payments: this.formatPayments(payments)
         });
       });
     });
@@ -33,7 +33,7 @@ class CustomerPortal extends React.Component {
       contract.getPayments(nextProps.address).then(payments => {
         this.setState({
           policy: policy,
-          payments: formatPayments(payments)
+          payments: this.formatPayments(payments)
         });
       });
     });
@@ -46,7 +46,7 @@ class CustomerPortal extends React.Component {
         contract.getPayments(this.props.address).then(payments => {
           this.setState({
             policy: policy,
-            payments: formatPayments(payments)
+            payments: this.formatPayments(payments)
           });
         });
       });
