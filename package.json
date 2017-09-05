@@ -7,7 +7,8 @@
     "start": "./node_modules/.bin/webpack-dev-server --content-base src/static",
     "startd": "./node_modules/.bin/webpack-dev-server --content-base src/static --inline --hot -d",
     "starteth": "./node_modules/.bin/testrpc",
-    "deploy": "node deploy.js"
+    "deploy": "node deploy.js",
+    "build": "./node_modules/.bin/web"
   },
   "author": "Daniel Cogan",
   "license": "ISC",
