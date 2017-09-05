@@ -6,12 +6,9 @@ import CustomerPortal from "../CustomerPortal";
 import Header from "../Header";
 import Login from "../Login";
 import {PolicyDoesNotExist, InvalidAddressError} from "../contract";
-import getContract from "../getContract.js";
-import EthsuranceContract from "../contract";
+import { connectContract } from "../getContract.js";
 
 import "./style.scss";
-
-const BLOCKCHAIN_URL = "http://localhost:8545";
 
 const views = {
   CREATE_POLICY: 1,
@@ -37,19 +34,12 @@ class Main extends React.Component {
     this.dispatchToLoginPortal = this.dispatchToLoginPortal.bind(this);
   }
 
-  componentDidMount() {
-    getContract().then(contract => {
-      const ethsuranceContract = new EthsuranceContract(contract.address, contract.abi, BLOCKCHAIN_URL);
-      this.setState({contract: ethsuranceContract});
-    });
-  }
-
   handleLogin(address) {
-    this.state.contract.getOwner().then(owner_address => {
+    this.props.contract.getOwner().then(owner_address => {
       if (address === owner_address) {
         this.dispatchToAdminPortal();
       } else {
-        this.state.contract.getPolicy(address).then(policy => {
+        this.props.contract.getPolicy(address).then(policy => {
           this.setState({
             address: address,
             error: null,
@@ -117,7 +107,7 @@ class Main extends React.Component {
   renderCustomerPortal(address) {
     return (
       <CustomerPortal
-        contract={this.state.contract}
+        contract={this.props.contract}
         address={address}
         onLogout={this.handleLogout}
       />
@@ -126,14 +116,14 @@ class Main extends React.Component {
 
   renderAdminPortal() {
     return (
-      <AdminPortal contract={this.state.contract} />
+      <AdminPortal contract={this.props.contract} />
     );
   }
 
   renderCreatePolicy(address) {
     return (
       <CreatePolicy
-        contract={this.state.contract}
+        contract={this.props.contract}
         address={address}
         onCreate={this.handlePolicyCreated}
       />
@@ -174,5 +164,6 @@ class Main extends React.Component {
   }
 }
 
+const ConnectedMain = connectContract(Main);
 
-export default Main;
+export default ConnectedMain;
