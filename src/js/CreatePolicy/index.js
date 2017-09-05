@@ -54,6 +54,7 @@ class CreatePolicy extends React.Component {
 }
 
 CreatePolicy.propTypes = {
+  contract: React.PropTypes.object.isRequired,
   address: React.PropTypes.string.isRequired,
   onCreate: React.PropTypes.func.isRequired
 };
