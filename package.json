@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --content-base src/static",
+    "start": "./node_modules/.bin/webpack && node src/server/index.js",
     "startd": "./node_modules/.bin/webpack-dev-server --content-base src/static --inline --hot -d",
     "starteth": "./node_modules/.bin/testrpc",
     "deploy": "node deploy.js",
@@ -28,6 +28,7 @@
     "solc": "^0.4.16"
   },
   "dependencies": {
+    "express": "^4.15.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.2.2",
