@@ -3,6 +3,7 @@ import React from "react";
 import CompanyBalanceCard from "./CompanyBalanceCard";
 import CompanyPoliciesCard from "./CompanyPoliciesCard";
 import PaymentHistoryCard from "../PaymentHistoryCard";
+import { connectContract } from "../getContract.js";
 
 import "./style.scss";
 
@@ -82,4 +83,6 @@ class AdminPortal extends React.Component {
   }
 }
 
-export default AdminPortal;
+const ConnectedAdminPortal = connectContract(AdminPortal);
+
+export default ConnectedAdminPortal;

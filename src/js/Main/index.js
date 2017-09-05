@@ -107,7 +107,6 @@ class Main extends React.Component {
   renderCustomerPortal(address) {
     return (
       <CustomerPortal
-        contract={this.props.contract}
         address={address}
         onLogout={this.handleLogout}
       />
@@ -116,14 +115,13 @@ class Main extends React.Component {
 
   renderAdminPortal() {
     return (
-      <AdminPortal contract={this.props.contract} />
+      <AdminPortal />
     );
   }
 
   renderCreatePolicy(address) {
     return (
       <CreatePolicy
-        contract={this.props.contract}
         address={address}
         onCreate={this.handlePolicyCreated}
       />
