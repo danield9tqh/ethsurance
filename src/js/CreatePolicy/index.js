@@ -2,6 +2,7 @@ import React from "react";
 
 import Input from "../Input";
 import Button from "../Button";
+import { connectContract } from "../getContract.js";
 
 import "./style.scss";
 
@@ -57,5 +58,6 @@ CreatePolicy.propTypes = {
   onCreate: React.PropTypes.func.isRequired
 };
 
+const ConnectedCreatePolicy = connectContract(CreatePolicy);
 
-export default CreatePolicy;
+export default ConnectedCreatePolicy;

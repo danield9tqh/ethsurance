@@ -3,6 +3,7 @@ import React from "react";
 import BalanceCard from "./BalanceCard";
 import MakePayment from "./MakePayment";
 import PaymentHistoryCard from "../PaymentHistoryCard";
+import { connectContract } from "../getContract.js";
 
 import "./style.scss";
 
@@ -86,5 +87,6 @@ CustomerPortal.propTypes = {
   contract: React.PropTypes.object.isRequired,
 };
 
+const ConnectedCustomerPortal = connectContract(CustomerPortal);
 
-export default CustomerPortal;
+export default ConnectedCustomerPortal;
