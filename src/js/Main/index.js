@@ -5,8 +5,6 @@ import CreatePolicy from "../CreatePolicy";
 import CustomerPortal from "../CustomerPortal";
 import Header from "../Header";
 import Login from "../Login";
-import {PolicyDoesNotExist, InvalidAddressError} from "../contract";
-import { connectContract } from "../getContract.js";
 
 import "./style.scss";
 
@@ -23,58 +21,40 @@ class Main extends React.Component {
     super(props);
     this.state = {
       address: null,
-      error: null,
       view: views.LOGIN
     };
 
-    this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handlePolicyCreated = this.handlePolicyCreated.bind(this);
     this.dispatchToAdminPortal = this.dispatchToAdminPortal.bind(this);
+    this.dispatchToCustomerPortal = this.dispatchToCustomerPortal.bind(this);
+    this.dispatchToCreatePolicy = this.dispatchToCreatePolicy.bind(this);
     this.dispatchToLoginPortal = this.dispatchToLoginPortal.bind(this);
-  }
-
-  handleLogin(address) {
-    this.props.contract.getOwner().then(owner_address => {
-      if (address === owner_address) {
-        this.dispatchToAdminPortal();
-      } else {
-        this.props.contract.getPolicy(address).then(policy => {
-          this.setState({
-            address: address,
-            error: null,
-            view: views.VIEW_POLICY
-          });
-        }).catch((e) => {
-          if (e instanceof PolicyDoesNotExist) {
-            this.setState({
-              address: address,
-              error: null,
-              view: views.CREATE_POLICY
-            });
-          } else if (e instanceof InvalidAddressError) {
-            this.setState({
-              address: null,
-              error: "Whoops, looks like that address is not valid",
-              view: views.LOGIN
-            });
-          }
-        });
-      }
-    });
   }
 
   dispatchToAdminPortal() {
     this.setState({
-      error: null,
       view: views.ADMIN
+    });
+  }
+
+  dispatchToCustomerPortal(address) {
+    this.setState({
+      address: address,
+      view: views.VIEW_POLICY
+    });
+  }
+
+  dispatchToCreatePolicy(address) {
+    this.setState({
+      address: address,
+      view: views.CREATE_POLICY
     });
   }
 
   dispatchToLoginPortal() {
     this.setState({
       address: null,
-      error: null,
       view: views.LOGIN
     });
   }
@@ -82,7 +62,6 @@ class Main extends React.Component {
   handleLogout() {
     this.setState({
       address: null,
-      error: null,
       view: views.LOGIN
     });
   }
@@ -90,16 +69,16 @@ class Main extends React.Component {
   handlePolicyCreated(address) {
     this.setState({
       address: address,
-      error: null,
       view: views.VIEW_POLICY
     });
   }
 
-  renderLogin(error) {
+  renderLogin() {
     return (
       <Login
-        onLogin={this.handleLogin}
-        error={error}
+        dispatchToAdminPortal={this.dispatchToAdminPortal}
+        dispatchToCustomerPortal={this.dispatchToCustomerPortal}
+        dispatchToCreatePolicy={this.dispatchToCreatePolicy}
       />
     )
   }
@@ -134,7 +113,6 @@ class Main extends React.Component {
 
   render() {
     const address = this.state.address;
-    const error = this.state.error
     let view;
     if (this.state.view === views.CREATE_POLICY) {
       view =  this.renderCreatePolicy(address);
@@ -145,7 +123,7 @@ class Main extends React.Component {
     } else if (this.state.view === views.DEV) {
       view = this.renderDev();
     } else {
-      view = this.renderLogin(error);
+      view = this.renderLogin();
     }
 
     return (
@@ -162,6 +140,4 @@ class Main extends React.Component {
   }
 }
 
-const ConnectedMain = connectContract(Main);
-
-export default ConnectedMain;
+export default Main;

@@ -2,6 +2,8 @@ import React from "react";
 
 import Input from "../Input";
 import Button from "../Button";
+import {PolicyDoesNotExist, InvalidAddressError} from "../contract";
+import { connectContract } from "../getContract.js";
 
 import "./style.scss";
 
@@ -9,10 +11,14 @@ class Login extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {address: ""};
+    this.state = {address: "", error: null};
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  componentWillReceiveProps() {
+    this.setState({ error: null });
   }
 
   handleInputChange(newValue) {
@@ -20,7 +26,24 @@ class Login extends React.Component {
   }
 
   handleLogin() {
-    this.props.onLogin(this.state.address);
+    const address = this.state.address;
+    this.props.contract.getOwner().then(owner_address => {
+      if (address === owner_address) {
+        this.props.dispatchToAdminPortal();
+      } else {
+        this.props.contract.getPolicy(address).then(policy => {
+          this.props.dispatchToCustomerPortal(address);
+        }).catch((e) => {
+          if (e instanceof PolicyDoesNotExist) {
+            this.props.dispatchToCreatePolicy(address);
+          } else if (e instanceof InvalidAddressError) {
+            this.setState({
+              error: "Whoops, looks like that address is not valid"
+            });
+          }
+        });
+      }
+    });
   }
 
   render() {
@@ -39,7 +62,7 @@ class Login extends React.Component {
               <Button onClick={this.handleLogin} text={"View Policy"} />
             </div>
           </div>
-          <div className="error">{this.props.error}</div>
+          <div className="error">{this.state.error}</div>
         </div>
       </div>
     );
@@ -47,8 +70,12 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  onLogin: React.PropTypes.func.isRequired,
-  error: React.PropTypes.string
+  contract: React.PropTypes.object.isRequired,
+  dispatchToAdminPortal: React.PropTypes.func.isRequired,
+  dispatchToCustomerPortal: React.PropTypes.func.isRequired,
+  dispatchToCreatePolicy: React.PropTypes.func.isRequired
 };
 
-export default Login;
+const ConnectedLogin = connectContract(Login);
+
+export default ConnectedLogin;
