@@ -24,8 +24,6 @@ class Main extends React.Component {
       view: views.LOGIN
     };
 
-    this.handleLogout = this.handleLogout.bind(this);
-    this.handlePolicyCreated = this.handlePolicyCreated.bind(this);
     this.dispatchToAdminPortal = this.dispatchToAdminPortal.bind(this);
     this.dispatchToCustomerPortal = this.dispatchToCustomerPortal.bind(this);
     this.dispatchToCreatePolicy = this.dispatchToCreatePolicy.bind(this);
@@ -59,20 +57,6 @@ class Main extends React.Component {
     });
   }
 
-  handleLogout() {
-    this.setState({
-      address: null,
-      view: views.LOGIN
-    });
-  }
-
-  handlePolicyCreated(address) {
-    this.setState({
-      address: address,
-      view: views.VIEW_POLICY
-    });
-  }
-
   renderLogin() {
     return (
       <Login
@@ -87,7 +71,6 @@ class Main extends React.Component {
     return (
       <CustomerPortal
         address={address}
-        onLogout={this.handleLogout}
       />
     )
   }
@@ -102,7 +85,7 @@ class Main extends React.Component {
     return (
       <CreatePolicy
         address={address}
-        onCreate={this.handlePolicyCreated}
+        onCreate={this.dispatchToCustomerPortal}
       />
     );
   }
