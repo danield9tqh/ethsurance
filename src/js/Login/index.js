@@ -29,13 +29,13 @@ class Login extends React.Component {
     const address = this.state.address;
     this.props.contract.getOwner().then(owner_address => {
       if (address === owner_address) {
-        this.props.dispatchToAdminPortal();
+        this.props.handleAdminLogin();
       } else {
         this.props.contract.getPolicy(address).then(policy => {
-          this.props.dispatchToCustomerPortal(address);
+          this.props.handleCustomerLogin(address);
         }).catch((e) => {
           if (e instanceof PolicyDoesNotExist) {
-            this.props.dispatchToCreatePolicy(address);
+            this.props.handleNewCustomerLogin(address);
           } else if (e instanceof InvalidAddressError) {
             this.setState({
               error: "Whoops, looks like that address is not valid"
@@ -71,9 +71,9 @@ class Login extends React.Component {
 
 Login.propTypes = {
   contract: React.PropTypes.object.isRequired,
-  dispatchToAdminPortal: React.PropTypes.func.isRequired,
-  dispatchToCustomerPortal: React.PropTypes.func.isRequired,
-  dispatchToCreatePolicy: React.PropTypes.func.isRequired
+  handleAdminLogin: React.PropTypes.func.isRequired,
+  handleCustomerLogin: React.PropTypes.func.isRequired,
+  handleNewCustomerLogin: React.PropTypes.func.isRequired
 };
 
 const ConnectedLogin = connectContract(Login);

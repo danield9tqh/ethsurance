@@ -60,9 +60,9 @@ class Main extends React.Component {
   renderLogin() {
     return (
       <Login
-        dispatchToAdminPortal={this.dispatchToAdminPortal}
-        dispatchToCustomerPortal={this.dispatchToCustomerPortal}
-        dispatchToCreatePolicy={this.dispatchToCreatePolicy}
+        handleAdminLogin={this.dispatchToAdminPortal}
+        handleCustomerLogin={this.dispatchToCustomerPortal}
+        handleNewCustomerLogin={this.dispatchToCreatePolicy}
       />
     )
   }
