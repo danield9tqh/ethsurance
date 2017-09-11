@@ -83,7 +83,6 @@ class CustomerPortal extends React.Component {
 
 CustomerPortal.propTypes = {
   address: React.PropTypes.string.isRequired,
-  onLogout: React.PropTypes.func.isRequired,
   contract: React.PropTypes.object.isRequired,
 };
 
