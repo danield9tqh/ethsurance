@@ -7,6 +7,8 @@ import { connectContract } from "../getContract.js";
 
 import "./style.scss";
 
+const REFRESH_RATE = 1000 // (in milliseconds) Refresh every second
+
 class CustomerPortal extends React.Component {
 
   constructor(props) {
@@ -21,8 +23,20 @@ class CustomerPortal extends React.Component {
     this.fetchNewState(this.props).then(this.setState);
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.fetchNewState(this.props).then(this.setState);
+    }, REFRESH_RATE);
+  }
+
   componentWillReceiveProps(nextProps) {
     this.fetchNewState(nextProps).then(this.setState);
+  }
+
+  componentDidUpdate() {
+    setTimeout(() => {
+      this.fetchNewState(this.props).then(this.setState);
+    }, REFRESH_RATE);
   }
 
   fetchNewState(props) {
