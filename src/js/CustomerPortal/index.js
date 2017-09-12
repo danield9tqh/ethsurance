@@ -14,44 +14,35 @@ class CustomerPortal extends React.Component {
     this.state = {policy: null, payments: []};
 
     this.handleMakePayment = this.handleMakePayment.bind(this);
+    this.setState = this.setState.bind(this);
   }
 
   componentWillMount() {
-    const contract = this.props.contract;
-    contract.getPolicy(this.props.address).then(policy => {
-      contract.getPayments(this.props.address).then(payments => {
-        this.setState({
-          policy: policy,
-          payments: this.formatPayments(payments)
-        });
-      });
-    });
+    this.fetchNewState(this.props).then(this.setState);
   }
 
   componentWillReceiveProps(nextProps) {
-    const contract = nextProps.contract;
-    contract.getPolicy(nextProps.address).then(policy => {
-      contract.getPayments(nextProps.address).then(payments => {
-        this.setState({
-          policy: policy,
-          payments: this.formatPayments(payments)
+    this.fetchNewState(nextProps).then(this.setState);
+  }
+
+  fetchNewState(props) {
+    const contract = props.contract;
+    return new Promise((resolve) => {
+      contract.getPolicy(props.address).then(policy => {
+        contract.getPayments(props.address).then(payments => {
+          resolve({
+            policy: policy,
+            payments: this.formatPayments(payments)
+          });
         });
       });
     });
   }
 
   handleMakePayment(amount) {
-    const contract = this.props.contract;
-    contract.makePayment(amount, this.props.address).then(() => {
-      contract.getPolicy(this.props.address).then(policy => {
-        contract.getPayments(this.props.address).then(payments => {
-          this.setState({
-            policy: policy,
-            payments: this.formatPayments(payments)
-          });
-        });
-      });
-    })
+    this.props.contract.makePayment(amount, this.props.address).then(() => {
+      this.fetchNewState(this.props).then(this.setState);
+    });
   }
 
   formatPayments(payments) {
