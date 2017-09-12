@@ -7,7 +7,7 @@ import { connectContract } from "../getContract.js";
 
 import "./style.scss";
 
-const REFRESH_RATE = 1000 // (in milliseconds) Refresh every second
+const REFRESH_RATE = 5000 // (in milliseconds) Refresh every 5 seconds
 
 class AdminPortal extends React.Component {
 
