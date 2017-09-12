@@ -14,22 +14,19 @@ class AdminPortal extends React.Component {
     this.state = {policies: [], payments: []};
 
     this.handlePayClaim = this.handlePayClaim.bind(this);
+    this.setState = this.setState.bind(this);
   }
 
   componentWillMount() {
-    this.fetchContractData().then(data => {
-      this.setState({availiableBalance: data.availiableBalance, policies: data.policies, payments: data.payments});
-    });
+    this.fetchNewState(this.props).then(this.setState);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.fetchContractData().then(data => {
-      this.setState({availiableBalance: data.availiableBalance, policies: data.policies, payments: data.payments});
-    });
+    this.fetchNewState(nextProps).then(this.setState);
   }
 
-  fetchContractData() {
-    const contract = this.props.contract;
+  fetchNewState(props) {
+    const contract = props.contract;
     return new Promise((resolve) => {
       contract.getPolicyHolders().then(holders => {
         contract.getPolicies(holders).then((policies) => {
@@ -58,10 +55,8 @@ class AdminPortal extends React.Component {
 
   handlePayClaim(address, amount) {
     const contract = this.props.contract;
-    contract.payClaim(address, amount).then(result => {
-      this.fetchContractData().then(data => {
-        this.setState({availiableBalance: data.availiableBalance, policies: data.policies, payments: data.payments});
-      });
+    contract.payClaim(address, amount).then(() => {
+      this.fetchNewState(this.props).then(this.setState);
     });
   }
 
